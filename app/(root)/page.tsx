@@ -4,7 +4,7 @@ import TotalBalanceBox from '../../components/TotalBalanceBox'
 import RightSidebar from '../../components/RightSidebar'
 
 const Home = () => {
-  const loggedIn = { firstName: "Shreyas", lastName: "Patil" }
+  const loggedIn = { firstName: "Shreyas", lastName: "Patil", email: "patilshreyasvjti@gmail.com" }
 
   return (
     <section className='home'>
@@ -31,7 +31,7 @@ const Home = () => {
       <RightSidebar 
         user={loggedIn}
         transactions={[]}
-        banks={[]}
+        banks={[{},{}]}
       />
     </section>
   )
