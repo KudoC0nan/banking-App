@@ -22,7 +22,7 @@ import { authformSchema } from '@/lib/utils'
 import CustomInput from './CustomInput'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { signUp } from '@/lib/actions/user.actions'
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions'
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter()
@@ -41,23 +41,21 @@ const AuthForm = ({ type }: { type: string }) => {
   })
  
   // 2. Define a submit handler.
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true)
 
     try {
       // Sign up with App write and create plaid token
 
       if (type === 'sign-up') {
-        const newUser = await signUp(data) {
-          setUser(newUser)
-        }
+        const newUser = await signUp(data)
+        setUser(newUser);
       }
 
-      // if (type === 'sign-in') {
-      //   // const response = await SignIn({ email: data.email, password: data.password }) {
-      //   //   if (response) router.push('/')
-      //   }
-      // }
+      if (type === 'sign-in') {
+        const response = await signIn({ email: data.email, password: data.password })
+        if (response) router.push('/')
+      }
 
       console.log(data)
       setIsLoading(false)
