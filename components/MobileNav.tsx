@@ -28,6 +28,8 @@ const MobileNav = ({ user } : MobileNavProps) => {
           <Image src="/icons/hamburger.svg" width={30} height={30} alt="menu" className="cursor-pointer" />
         </SheetTrigger>
         <SheetContent side="left" className="border-none bg-white">
+            <SheetTitle></SheetTitle>
+            <SheetDescription></SheetDescription>
             <Link href='/' className='cursor-pointer items-center gap-1 flex px-4'>
                 <Image src='/icons/logo.svg' width={34} height={34} alt='Nika Logo' />
             <h1 className='text-26 font-ibm-plex-serif font-bold text-black-1'>Nika</h1>
