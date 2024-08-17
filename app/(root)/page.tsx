@@ -7,9 +7,9 @@ import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
 import RecentTransactions from '@/components/RecentTransactions'
 
 const Home = async ({ searchParams: { id, page } } : SearchParamProps) => {
+  const currentPage = Number(page as string) || 1
   const loggedIn = await getLoggedInUser()
-  const user_id = loggedIn.$id
-  const accounts = await getAccounts({ userId: user_id })
+  const accounts = await getAccounts({ userId: loggedIn.$id })
 
   if (!accounts) return
 
@@ -42,7 +42,12 @@ const Home = async ({ searchParams: { id, page } } : SearchParamProps) => {
 
         </header>
 
-        {/* <RecentTransactions accounts={accountsData} transactions={account?.transactions} /> */}
+        <RecentTransactions 
+          accounts={accountsData} 
+          transactions={account?.transactions} 
+          appwriteItemId={appwriteItemId} 
+          page={currentPage}  
+        />
 
       </div>
 
