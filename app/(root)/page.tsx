@@ -49,8 +49,8 @@ const Home = async ({ searchParams: { id, page } } : SearchParamProps) => {
 
       <RightSidebar 
         user={loggedIn}
-        transactions={[]}
-        banks={[{ currentBalance: 200.50 },{ currentBalance: 450.00 }]}
+        transactions={account?.transactions}
+        banks={accountsData?.slice(0,2)}
       />
     </section>
   )
