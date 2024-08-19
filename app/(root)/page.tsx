@@ -10,14 +10,11 @@ import { redirect } from 'next/navigation'
 const Home = async ({ searchParams: { id, page } } : SearchParamProps) => {
   const loggedIn = await getLoggedInUser()
   if(!loggedIn) redirect('/sign-in')
-    
   const currentPage = Number(page as string) || 1
 
   const accounts = await getAccounts({ userId: loggedIn.$id })
 
   if (!accounts) return
-
-  
   const accountsData = accounts?.data
   const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId
   
