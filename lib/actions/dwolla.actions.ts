@@ -34,8 +34,8 @@ export const createFundingSource = async (
         plaidToken: options.plaidToken,
       })
       .then((res) => res.headers.get("location"));
-  } catch (err) {
-    console.error("Creating a Funding Source Failed: ", err);
+  } catch (error: any) {
+    console.error("Creating a Funding Source Failed: ", error.body._embedded.errors[0].message);
   }
 };
 
@@ -46,8 +46,8 @@ export const createOnDemandAuthorization = async () => {
     );
     const authLink = onDemandAuthorization.body._links;
     return authLink;
-  } catch (err) {
-    console.error("Creating an On Demand Authorization Failed: ", err);
+  } catch (error: any) {
+    console.error("Creating an On Demand Authorization Failed: ", error.body._embedded.errors[0].message);
   }
 };
 
@@ -58,8 +58,9 @@ export const createDwollaCustomer = async (
     return await dwollaClient
       .post("customers", newCustomer)
       .then((res) => res.headers.get("location"));
-  } catch (err) {
-    console.error("Creating a Dwolla Customer Failed: ", err);
+  } catch (error: any) {
+    const errorMessage = error.body?._embedded?.errors?.[0]?.message || 'Unknown error occurred';
+    return { error: errorMessage };
   }
 };
 

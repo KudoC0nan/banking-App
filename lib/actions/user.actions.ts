@@ -59,7 +59,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams ) => {
     let newUserAccount
 
     try {
-        const { account, database } = await createAdminClient();
+        const { account, database, user } = await createAdminClient();
 
         newUserAccount = await account.create(ID.unique(), email, password, `${firstName} ${lastName}`);
         if (!newUserAccount) throw new Error('Error creating user!')
@@ -69,7 +69,17 @@ export const signUp = async ({ password, ...userData }: SignUpParams ) => {
             type: 'personal'
         })
 
-        if (!dwollaCustomerUrl) throw new Error('Error creating Dwolla customer!')
+        if (dwollaCustomerUrl?.error) {
+            // Delete the user if Dwolla creation fails
+            await user.delete(newUserAccount.$id);
+            return { error: dwollaCustomerUrl.error };
+        }
+
+        if (!dwollaCustomerUrl) {
+            await user.delete(newUserAccount.$id)
+            throw new Error('Error creating Dwolla customer!')
+        }
+            
         const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl)
 
         const newUser = await database.createDocument(
@@ -94,7 +104,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams ) => {
         });
 
         return parseStringify(newUser)
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error', error)
     }
 }
