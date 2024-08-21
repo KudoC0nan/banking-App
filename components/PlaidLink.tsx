@@ -55,7 +55,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
             width={24}
             height={24}
           />
-          <p className='hiddenl text-[16px] font-semibold text-black-2 xl:block max-xl:hidden'>Connect bank</p>
+          <p className='text-[16px] font-semibold text-black-2 xl:block'>Connect bank</p>
         </Button>
       ): (
         <Button onClick={() => open()} className={cn('plaidlink-default', {'xl:justify-start': true})}>
